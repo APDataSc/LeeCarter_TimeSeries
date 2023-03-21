@@ -254,3 +254,6 @@ legend("topleft",legend=c("Observed","Lee-Carter (1992)"),lwd=2,cex=1.25,
        col=c(col.obs,col.lc),bg="white",inset=0.05)
 legend("topleft",legend=c("","", ""),pch=c(NA,15),col=c(NA,col.lcT),
        bty="n",lwd=NA,cex=1.25,lty=NA,inset=0.05)
+
+
+#Comentarios adicionales
