@@ -1,3 +1,20 @@
+#**************************************************************************************#
+#**************************************************************************************#
+#
+#                       Método Lee Carter (1992) para Ecuador                        
+#                            Pronóstico de Mortalidad
+#
+#     Fecha de elaboración:   18/03/2023
+#     Última actualización:   23/03/2023
+#     Actualizado por:        Andrés Peña M.               
+#     Contacto:               Andrés Peña M. (agpena@colmex.mx)
+#     Organización:           El Colegio de México A.C.
+#                             
+#
+#**************************************************************************************#
+#**************************************************************************************#  
+
+"Preámbulo"
 
 rm( list = ls() )
 graphics.off( )
@@ -5,10 +22,8 @@ options(scipen=999)
 
 # Lista de paquetes 
 .packages <-  c( "data.table",  
-                 "tidyverse", 
-                 "lubridate", 
+                 "tidyverse",  
                  "ggplot2",  
-                 "MortalityLaws",
                  "fpp2",
                  "urca")
 
@@ -32,9 +47,11 @@ lt_ecu_f <-
 rates <- lt_ecu_f$mx
 M <- matrix(log(rates), 70, 101, byrow = TRUE)
 
+
+
 "Fitting the Model"
 # The first thing we need is the mean log-rate for each age group. This is easily 
-# computed using colMeans(). The results are remarkably close to Table 1 in the original paper.
+# computed using colMeans(). 
 a <- colMeans(M)
 a
 plot(a)
@@ -58,10 +75,9 @@ b <- d$v/sum(d$v)
 head(b, 5) 
 plot(b)
 
-# These values are remarkably close to the b’s published in Table 2. Lee and Carter 
-# also take the first column of U, multiply by D1,1 and multiply by the sum of the 
-# first row of V’ (to cancel the division) and call that k. This vector captures 
-# overall mortality change over time.
+# Lee and Carter also take the first column of U, multiply by D1,1 and multiply 
+# by the sum of the first row of V’ (to cancel the division) and call that k.  
+# This vector captures overall mortality change over time.
 
 k <- d$u * sum(d$v) * d$d[1]
 head(k, 5)
@@ -70,10 +86,9 @@ tail(k, 5)
 plot(k)
 
 
-
 "Plotting Parameters and Fits"
-# The next task is to compute the Lee-Carter fits to the mortality rates in 1933 
-# and 1987, reproducing part of Figure 2 in the original paper.
+# The next task is to compute the Lee-Carter fits to the mortality rates in 1950, 
+# 1985 and 1987.
 
 usmx2 <- filter(lt_ecu_f, year==1950 | year == 1985 | year == 2019) |> 
   mutate(year = factor(year),
@@ -115,6 +130,7 @@ autoplot(fit)
 
 forecast_k <- fit %>% forecast(h=30)
 k_f <- forecast_k$mean[1:30]  
+
 
 ## function to compute LC log-rates from LC parameters (Lee & Carter, 1992)
 LCeta <- function(ax,bx,kt){
@@ -255,5 +271,4 @@ legend("topleft",legend=c("Observed","Lee-Carter (1992)"),lwd=2,cex=1.25,
 legend("topleft",legend=c("","", ""),pch=c(NA,15),col=c(NA,col.lcT),
        bty="n",lwd=NA,cex=1.25,lty=NA,inset=0.05)
 
-
-#Comentarios adicionales
+# The end
