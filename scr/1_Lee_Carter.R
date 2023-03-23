@@ -115,15 +115,15 @@ k %>% diff() %>% ur.kpss() %>% summary()
 
 ndiffs(k)
 
-fit <- auto.arima(k, seasonal=FALSE)
-
-fit %>% forecast(h=30) %>% autoplot(include=80)
-
+# Identificación del modelo
 ggAcf(k)
 ggPacf(k)
 
+fit <- auto.arima(k, seasonal=FALSE)
+fit %>% forecast(h=30) %>% autoplot(include=80)
 k %>% diff() %>% ggtsdisplay(main="")
 
+# Análisis de residuales
 checkresiduals(fit)
 
 autoplot(fit)
@@ -247,6 +247,7 @@ lines(tF,e0obs,lty=2,col=4)
 
 
 ## panel 1: LE
+ylimE0 <- range(e0obs,e0lc,e0lc.up,e0lc.low)
 t <- 1950:2019
 cex.main <- 1.65
 col.obs <- "grey30"
@@ -265,10 +266,10 @@ lines(tF,e0lc,col=col.lc,lwd=2)
 mtext("year", 1, line=1.75,cex=cex.axis.title)
 mtext(expression(e[0]), 2, line=1.5,cex=cex.axis.title,las=2)
 
-legend("topleft",legend=c("Observed","Lee-Carter (1992)"),lwd=2,cex=1.25,
+legend("topleft",legend=c("Observed","Lee-Carter (1992)"),lwd=2,cex=0.75,
        pch=c(16,NA),lty=c(NA,1),
        col=c(col.obs,col.lc),bg="white",inset=0.05)
 legend("topleft",legend=c("","", ""),pch=c(NA,15),col=c(NA,col.lcT),
-       bty="n",lwd=NA,cex=1.25,lty=NA,inset=0.05)
+       bty="n",lwd=NA,cex=0.75,lty=NA,inset=0.05)
 
 # The end
