@@ -20,6 +20,9 @@ rm( list = ls() )
 graphics.off( )
 options(scipen=999)
 
+## loading functions
+source("scr/0_functions.R")
+
 # Lista de paquetes 
 .packages <-  c( "data.table",  
                  "tidyverse",  
@@ -42,8 +45,8 @@ lt_ecu_f <-
   .[ sex=="f" & year!=2020 , .( year, date_ref, sex, age, mx, ex) ]
 
 
-# Next we compute the log of the rates. We will store them in a matrix of 55 
-# years by 19 age groups.
+# Next we compute the log of the rates. We will store them in a matrix of 70 
+# years (1950-2019) by 101 age groups.
 rates <- lt_ecu_f$mx
 M <- matrix(log(rates), 70, 101, byrow = TRUE)
 
