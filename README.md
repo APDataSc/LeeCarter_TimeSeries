@@ -4,4 +4,4 @@ This repository contains the materials to test Lee Carter model (1992) with ecua
 ## Structure
 * dat : input source data
 * out : output data and figures
-* src : code to replicate analysis and visualisation
+* scr : code to replicate analysis and visualisation
