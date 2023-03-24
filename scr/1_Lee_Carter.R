@@ -76,7 +76,7 @@ plot(d$d/sum(d$d)*100, type="l")
 
 b <- d$v/sum(d$v)
 head(b, 5) 
-plot(b)
+plot(b, type="l")
 
 # Lee and Carter also take the first column of U, multiply by D1,1 and multiply 
 # by the sum of the first row of V’ (to cancel the division) and call that k.  
@@ -86,7 +86,7 @@ k <- d$u * sum(d$v) * d$d[1]
 head(k, 5)
 tail(k, 5)
 
-plot(k)
+plot(k, type="l")
 
 
 "Plotting Parameters and Fits"
@@ -104,7 +104,7 @@ ggplot(usmx2, aes(age, mx, color=year)) + geom_point() +
 # Here’s the trajectory of k
 trend <- data.frame(year = 1950:2019, k = k)
 ggplot(trend, aes(year, k)) + geom_line() +
-  ggtitle("Lee-Carter k for 1933-1987")
+  ggtitle("Lee-Carter k for 1950-2019")
 
 
 "ARIMA Model"
@@ -122,7 +122,7 @@ ndiffs(k)
 ggAcf(k)
 ggPacf(k)
 
-fit <- auto.arima(k, seasonal=FALSE)
+fit <- auto.arima(k, seasonal=FALSE, trace = T)
 fit %>% forecast(h=30) %>% autoplot(include=80)
 k %>% diff() %>% ggtsdisplay(main="")
 
